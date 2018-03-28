@@ -36,7 +36,9 @@ stan_arima.fit <- function(yy,
                            # QR = QR
                            ) {
   
-  # needed since we don't pass the white-noise matrix into stan
+
+
+  # needed since we don't pass the white-noise matrix into Stan
   if (p > 0) 
     K <- p
   else
@@ -74,9 +76,9 @@ stan_arima.fit <- function(yy,
   else {
     stop("Only algorithm == 'sampling' is supported.")
   }
-  new_names <- c(if (has_intercept) "(Intercept)", 
-                 if (p >= 1) paste0("AR", 1:p), 
-                 if (q >= 1) paste0("MA", 1:q),
+  new_names <- c(if (has_intercept) "(Intercept)",
+                 if (p >= 1) paste0("ar", 1:p), 
+                 if (q >= 1) paste0("ma", 1:q),
                  "sigma",
                  "log-posterior")
   stanfit@sim$fnames_oi <- new_names

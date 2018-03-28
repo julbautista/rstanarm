@@ -70,8 +70,14 @@
 print.stanreg <- function(x, digits = 1, ...) {
   cat(x$stan_function)
   cat("\n family:      ", family_plus_link(x))
-  cat("\n formula:     ", formula_string(formula(x)))
-  cat("\n observations:", nobs(x))
+  ##fix - for stan_arima
+  if(x$stan_function == "stan_arima")
+    cat("\n Call:  ", toString(c(x$call)))
+  else cat("\n formula:     ", formula_string(formula(x)))
+  #fix - for stan_arima
+  if(x$stan_function == "stan_arima")
+    cat("\n observations: ", length(x$fitted.values))
+  else cat("\n observations:", nobs(x))
   if (isTRUE(x$stan_function %in% c("stan_glm", "stan_glm.nb", "stan_lm")))
     cat("\n predictors:  ", length(coef(x)))
   
