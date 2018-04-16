@@ -86,7 +86,7 @@ stanreg <- function(object) {
       stanmat <- stanmat[,1:mark, drop = FALSE]
     }
     covmat <- cov(stanmat)
-    #possible hash this line out to make covmat work for other stuff stan_arima
+    #possible hash below line out to make covmat work for other stuff stan_arima
     rownames(covmat) <- colnames(covmat) <- rownames(stan_summary)[1:nrow(covmat)]
     if (object$algorithm == "sampling") 
       check_rhats(stan_summary[, "Rhat"])
