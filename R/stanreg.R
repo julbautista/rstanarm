@@ -34,6 +34,11 @@ stanreg <- function(object) {
   else nobs <- NROW(y)
   ynames <- if (is.matrix(y)) rownames(y) else names(y)
   
+  #fix - for stan_arima
+  if(object$stan_function == "stan_arima")
+    # series <- deparse(substitute(object$y))
+    series <- "sup"
+  
   is_betareg <- is.beta(family$family)
   if (is_betareg) { 
     family_phi <- object$family_phi  # pull out phi family/link
@@ -86,7 +91,7 @@ stanreg <- function(object) {
       stanmat <- stanmat[,1:mark, drop = FALSE]
     }
     covmat <- cov(stanmat)
-    #possible hash this line out to make covmat work for other stuff stan_arima
+    #possible hash below line out to make covmat work for other stuff stan_arima
     rownames(covmat) <- colnames(covmat) <- rownames(stan_summary)[1:nrow(covmat)]
     if (object$algorithm == "sampling") 
       check_rhats(stan_summary[, "Rhat"])
@@ -140,7 +145,8 @@ stanreg <- function(object) {
     # sometimes 'call' is no good (e.g. if using do.call(stan_glm, args)) so
     # also include the name of the modeling function (for use when printing,
     # etc.)
-    stan_function = object$stan_function)
+    stan_function = object$stan_function,
+    series = series)
 
   if (opt) 
     out$asymptotic_sampling_dist <- stanmat
