@@ -29,9 +29,8 @@ stanreg <- function(object) {
   x <- object$x
   nvars <- ncol(x)
   #fix - for stan_arima
-  if(object$stan_function == "stan_arima")
-    nobs <- length(object$y)
-  else nobs <- NROW(y)
+  if(object$stan_function != "stan_arima")
+    nobs <- NROW(y)
   ynames <- if (is.matrix(y)) rownames(y) else names(y)
   
   is_betareg <- is.beta(family$family)
@@ -153,9 +152,6 @@ stanreg <- function(object) {
     out$eta_z <- eta_z
     out$phi <- phi
   }
-  if(object$stan_function == "stan_arima"){
-    out$nobs <- nobs
-  }
-  
+
   structure(out, class = c("stanreg", "glm", "lm"))
 }

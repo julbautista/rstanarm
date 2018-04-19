@@ -125,8 +125,10 @@ stan_arima <-
         order = order)
     
     out <- stanreg(fit)
-    #julian edit
+    #series - stan_arima
     out$series <- deparse(substitute(x))
+    #nobs - stan_arima
+    out$nobs <- length(x)
     structure(out, class = c("stanreg", "arima"))
   }
 
